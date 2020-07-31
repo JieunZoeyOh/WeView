@@ -13,7 +13,7 @@ public class commDeleteAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		boolean result = false;
-		boolean usercheck = false;
+		//boolean usercheck = false;
 		String delete = request.getParameter("no");
 		int no = Integer.parseInt(delete);
 		System.out.println("board_no:"+no);
