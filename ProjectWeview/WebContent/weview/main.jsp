@@ -56,7 +56,7 @@
 				<div class="col-lg-9 col-md-7" style="padding-top: 20px;">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>Weekly Bset</h2>
+							<h2>Weekly Best</h2>
 						</div>
 						<div class="row">
 							<div class="product__discount__slider owl-carousel">
