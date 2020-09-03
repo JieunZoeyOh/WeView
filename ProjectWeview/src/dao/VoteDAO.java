@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import dto.BoardDTO;
 import dto.MemberDTO;
 import dto.VoteDTO;
 
@@ -209,4 +210,55 @@ public class VoteDAO {
 		}
 		return result;
 	}
+	
+	public int update(int no) {
+		Connection con = null;
+		PreparedStatement pstmt = null, pstmt2 = null;
+		ResultSet rs = null;
+		int result = 0;
+		BoardDTO v = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement("select ROUND(SUM(like1)), ROUND(SUM(like2)), ROUND(SUM(like3)) from vote where board_no=?");
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				v = new BoardDTO();
+				v.setLike1(rs.getInt(1));
+				v.setLike2(rs.getInt(2));
+				v.setLike3(rs.getInt(3));
+			}
+			
+			pstmt2 = con.prepareStatement("update board set like1=?, like2=?, like3=? where no = ?");
+			pstmt2.setInt(1, v.getLike1());
+			pstmt2.setInt(2, v.getLike2());
+			pstmt2.setInt(3, v.getLike3());
+			pstmt2.setInt(4, no);
+			result = pstmt2.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("voteupdate() 에러: " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+			}
+			try {
+				if (pstmt2 != null)
+					pstmt2.close();
+			} catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+			}
+			try {
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return result;
+	}	
 }

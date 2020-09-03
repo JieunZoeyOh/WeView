@@ -32,7 +32,10 @@ public class WeivewVoteAction implements Action{
 		if(bdto.getProductName2() != null) if(bdto.getProductName2().equals(product)) dto.setLike2(1);
 		if(bdto.getProductName3() != null) if(bdto.getProductName3().equals(product)) dto.setLike3(1);
 		
-		if(check==false)dao.insert(dto);
+		if(check==false) {
+			dao.insert(dto);
+			dao.update(b_no);
+		}
 		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(true);
